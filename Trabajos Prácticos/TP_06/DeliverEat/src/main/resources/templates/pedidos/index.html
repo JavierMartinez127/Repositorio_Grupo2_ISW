@@ -14,6 +14,71 @@
     <script type="text/javascript" th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.bundle.min.js}"></script>
   </head>
   <body>
-    Hello World! segfaeswrg
+    <div class="container py-4">
+      <h3 class="my-3 pl-1">Realizar Pedido </h3>
+      <form th:object="${pedido}" autocomplete="off"  method="POST" class="g-3">
+        <div class="row">
+          <p class="fs-5 my-3 pl-1">Domicilio</p>
+          <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" th:field="*{calle}" placeholder="Calle" th:classappend="${#fields.hasErrors('calle')} ? ' is-invalid' : ''"
+            required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+            <label th:for="*{calle}">Calle</label> 
+            <div class="invalid-feedback"> 
+              <th:block th:text="${error}" th:each="error : ${#fields.errors('calle')}"></th:block>
+            </div>
+          </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" th:field="*{numero}" placeholder="Número" th:classappend="${#fields.hasErrors('numero')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{numero}">Número</label> 
+              <div class="invalid-feedback"> 
+                <th:block th:text="${error}" th:each="error : ${#fields.errors('numero')}"></th:block>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <select th:field="*{ciudad}" class="form-select" aria-label="Ciudad" required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')">
+                <option selected th:value="${null}">Seleccione...</option>
+                <option value="H">Córdoba</option>
+                <option value="M">Villa Allende</option>
+              </select>
+              <label class="ms-2" th:for="*{ciudad}">Ciudad</label>
+              <div class="invalid-feedback"> 
+                <th:block th:text="${error}" th:each="error : ${#fields.errors('ciudad')}"></th:block>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" th:field="*{referencia}" placeholder="referencia" th:classappend="${#fields.hasErrors('referencia')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{referencia}">Referencia</label> 
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <label>Forma de pago</label>
+            <div class="col-md-6 mb-2 form-floating" id="forma-de-pago">
+              <div class="form-check-inline">
+                <input type="radio" data-bs-toggle="tooltip" data-bs-html="true" title="Efectivo" th:field="*{esPagoEfectivo}" class="form-check-input" name="forma-pago" value="true" checked="checked">
+                <label class="form-check-label" for="flexRadioDefault1">Efectivo </label>
+              </div>
+              <div class="form-check-inline">
+                <input type="radio" data-bs-toggle="tooltip" data-bs-html="true" title="Pago con tarjeta" th:field="*{esPagoEfectivo}" class="form-check-input" name="forma-pago" value="false">
+                <label class="form-check-label" for="flexRadioDefault1">Targeta Visa</label>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="btn-group col-md-12 text-end">
+            <button type="button" class="btn btn-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Pagar</button>
+          </div>
+      </form>
+    </div>
   </body>
 </html>
