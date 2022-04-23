@@ -15,4 +15,9 @@ public class PedidosController {
     public String GetPedido(){
         return "pedidos/index";
     }
+
+    @GetMapping("carrito")
+    public String GetCarrito(){
+        return "pedidos/carrito";
+    }
 }
