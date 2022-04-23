@@ -20,4 +20,9 @@ public class PedidosController {
         model.addAttribute("pedido", new Pedido());
         return "pedidos/index";
     }
+
+    @GetMapping("carrito")
+    public String GetCarrito(){
+        return "pedidos/carrito";
+    }
 }
