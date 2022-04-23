@@ -1,0 +1,72 @@
+Indentación (sangrado o sangría)
+La indentación o sangrado del texto en los archivos debe hacerse utilizando 2 (dos) espacios.
+
+Espaciado entre símbolos
+El espaciado que vamos a utilizar cuando nos encontremos colocando símbolos en el código va a depender mucho del lenguaje en el que estemos programando (podes ver diferentes guías para cada uno acá Keep Doing it!), pero dejamos algunas consideraciones generales:
+
+Luego de una coma, punto o punto y coma que esté seguida de mas texto insertaremos un espacio.
+
+Entre un paréntesis de cierre y una apertura de llave o corchete insertaremos un espacio.
+
+A cada lado de un símbolo igual insertaremos un espacio;
+
+A cada lado de un símbolo de operación lógica o matemática que separe expresiones insertaremos un espacio.
+
+Ejemplo de indentación y espaciado
+
+public ClaseDeEjemplo {
+
+  private Integer atributoEnteroDeEjemplo = 1;
+  private String atributoTextoDeEjemplo = "Lorem ipsum dolor, sit amet";
+  
+  public ClaseDeEjemplo(String parametroDeEjemplo) {
+    if(parametroDeEjemplo != null && !parametroDeEjemplo.isEmpty()) {
+      this.atributoTextoDeEjemplo = parametroDeEjemplo;
+    }
+  }
+  
+  public int operacionMatematicaInnecesaria() {
+    int retorno = 0;
+    int valorUno = 1;
+    int valorDos = 2;
+
+    retorno = (valorUno * valorDos / Math.PI) + 8.398254f;
+
+    return retorno;
+  }
+  
+  public boolean operacionBooleanaInncesesaria(int valorUno, int valorDos) {
+    return (valorUno != 0 && valorDos != 0) ||
+           (valorUno < 0 && valorDos > 24);
+  }
+}
+Notación (estilos de escritura)
+En las guías vamos a mencionar diferentes tipos de escritura para el nombrado de métodos, atributos, propiedades, variables, etc., utilizando su denominación en inglés. A continuación dejamos un ejemplo de cada una de ellas:
+
+Camel Case o Lower Camel Case
+Se coloca la primer letra de la primer palabra en minúscula y las palabras restantes capitalizadas (primer letra en mayúscula).
+
+Ejemplo:
+
+public String nombreDeUnaVariable;
+Capital Camel Case o Pascal Case
+Se coloca la primer letra de cada palabra en mayúscula.
+
+Ejemplo:
+
+public NombreDeUnaClase {
+}
+Embedded Underscore Case
+Se colocan todas las letras en minúsculas y para separar las palabras se utiliza un guión bajo “_“.
+
+Ejemplo:
+
+$nombre_de_una_variable = 'el valor';
+Kebab Case
+Se colocan todas las letras en minúsculas y para separar las palabras se utiliza un guión medio “-“.
+
+Ejemplo:
+
+<div id = "un-identificador-unico" class = "nombre-de-una-clase nombre-de-otra-clase">
+  El valor, con valor. ¡Que valor!
+</div>
