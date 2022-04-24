@@ -1,11 +1,17 @@
 package com.example.demo.controllers;
 
+import javax.validation.Valid;
+
 import com.example.demo.models.Pedido;
+import com.example.demo.models.Tarjeta;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,16 +19,86 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("pedidos")
 @RequiredArgsConstructor
 public class PedidosController {
-    
-    @GetMapping("index")
-    public String GetPedido(Model model){
 
-        model.addAttribute("pedido", new Pedido());
-        return "pedidos/index";
-    }
+  private Pedido pedidoNuevo = new Pedido();
+  @GetMapping("realizar-pedido")
+  public String getPedido(Model model){
 
-    @GetMapping("carrito")
-    public String GetCarrito(){
-        return "pedidos/carrito";
+      model.addAttribute("pedido", new Pedido());
+      return "pedidos/pedido-paso-uno.html";
+  }
+
+  @PostMapping("realizar-pedido")
+  public String getPedido(@Valid Pedido pedido, BindingResult result, Model model, RedirectAttributes attributes){
+
+    pedidoNuevo = pedido;
+    String retorno = "pedidos/pedido-paso-uno.html"; 
+    model.addAttribute("pedido", pedido);
+      if(result.hasErrors()) {
+        retorno = "pedidos/pedido-paso-uno.html"; 
+      }
+      else {
+        if (pedido.esPagoEnEfectivo()) {
+          retorno = "redirect:/pedidos/pago-efectivo";
+        }
+        else {
+          retorno = "redirect:/pedidos/pago-tarjeta";
+        }
+      }
+    return retorno;
+  }
+
+  @GetMapping("pago-efectivo")
+  public String pagarEfectivo(Model model, RedirectAttributes attributes) {
+
+    model.addAttribute("pedido", pedidoNuevo);
+    return "pedidos/pago-efectivo";
+  }
+
+  @PostMapping("pago-efectivo")
+  public String pagarEfectivo(@Valid Pedido pedido, BindingResult  result, Model model, RedirectAttributes attributes) {
+    String retorno = "pedidos/pago-efectivo";
+    if(pedido.getMontoEnEfectivo() < 100) {
+    model.addAttribute("pedido", pedidoNuevo);
     }
+    else {
+      retorno = "pedidos/pedido-exitoso";
+    }
+    return retorno;
+  }
+  
+  @GetMapping("pago-tarjeta")
+  public String pagarConTarjeta(Model model, RedirectAttributes attributes) {
+    model.addAttribute("pedido", new Pedido());
+    model.addAttribute("tarjeta", new Tarjeta());
+    return "pedidos/pago-tarjeta";
+  }
+
+  @GetMapping("pedido-cancelado")
+  public String cancelarPedido(Model model, RedirectAttributes attributes) {
+    return "pedidos/pedido-cancelado";
+  }
+
+  @GetMapping("pedido-exitoso")
+  public String pedidoExitoso(Model model, RedirectAttributes attributes) {
+    return "pedidos/pedido-exitoso";
+  }
+
+  @PostMapping("pago-tarjeta")
+  public String pagarConTarjeta(@Valid Tarjeta tarjeta, BindingResult result, Model model, RedirectAttributes attributes) {
+    String retorno = "pedidos/pago-tarjeta";
+    if(result.hasErrors()) {
+      model.addAttribute("pedido", new Pedido());
+      model.addAttribute("tarjeta", tarjeta);
+      retorno = "pedidos/pago-tarjeta"; 
+    }
+    model.addAttribute("pedido", new Pedido());
+    return retorno;
+  }
+
+  @GetMapping("carrito")
+  public String GetCarrito(){
+      return "pedidos/carrito";
+  }
+
 }
