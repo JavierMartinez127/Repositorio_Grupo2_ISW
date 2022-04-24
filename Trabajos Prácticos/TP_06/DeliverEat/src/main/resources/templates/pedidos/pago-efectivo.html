@@ -16,28 +16,46 @@
   </head>
   <body>
     <div class="container py-4">
-      <h3 class="my-3 pl-1">Pago en Efectivo </h3>
+      <h3 >Pago en Efectivo </h3>
       <form th:object="${pedido}" autocomplete="off"  method="POST" class="g-3">
         <div class="row">
-          <div class="form-floating mb-3">
-            <input type="number" class="form-control" th:field="*{montoEnEfectivo}" placeholder="montoEnEfectivo" th:classappend="${#fields.hasErrors('montoEnEfectivo')} ? ' is-invalid' : ''"
-            required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
-            <label th:for="*{montoEnEfectivo}">Monto en pesos </label> 
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+                <input type="text" value="122" class="form-control" readonly>
+                <label fs="fs-6">Total a pagar en $ </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input id="monto-nn-efectivo"type="number" class="form-control" th:field="*{montoEnEfectivo}" placeholder="montoEnEfectivo" th:classappend="${#fields.hasErrors('montoEnEfectivo')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{montoEnEfectivo}">¿Con cuanto va a abonar? </label> 
+            </div>
             <div class="invalid-feedback"> 
               <th:block th:text="${error}" th:each="error : ${#fields.errors('montoEnEfectivo')}"></th:block>
             </div>
           </div>
-          <div class="form-floating mb-3">
-            Su vuelto
-            <input id="id-vuelto" type="number" class="form-control" readonly>
-          <div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input id="id-vuelto" type="number" class="form-control" readonly>
+              <label fs="fs-6"> Su vuelto</label>
+            </div>
+          </div>
+        </div>
+        <div th:if="${montoInvalido}" class="alert alert-danger alert-dismissible fade show" role="alert">
+          El monto con el que desea abonar no es suficiente
         </div>
         <br>
-        <div class="btn-group col-md-12 text-end">
+        <div class="btn-group col-md-6 text-end">
           <a button type="button" class="btn btn-secondary" href="/pedidos/pedido-cancelado">Cancelar</a>
           <button type="submit" class="btn btn-primary">Pagar</button>
         </div>
       </form>
     </div>
+    <script type="text/javascript" src="/js/pedidos/pago-en-efectivo.js"></script>
   </body>
 </html>
