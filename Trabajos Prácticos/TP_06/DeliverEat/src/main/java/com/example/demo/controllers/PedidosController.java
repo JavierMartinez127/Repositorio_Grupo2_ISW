@@ -86,19 +86,46 @@ public class PedidosController {
 
   @PostMapping("pago-tarjeta")
   public String pagarConTarjeta(@Valid Tarjeta tarjeta, BindingResult result, Model model, RedirectAttributes attributes) {
-    String retorno = "pedidos/pago-tarjeta";
-    if(result.hasErrors()) {
-      model.addAttribute("pedido", new Pedido());
+    String retorno = "pedidos/pedido-exitoso";
+    if(result.hasErrors() || !esfechaVencimientoValida(tarjeta)) {
+      model.addAttribute("pedido", pedidoNuevo);
       model.addAttribute("tarjeta", tarjeta);
+      if(!esfechaVencimientoValida(tarjeta)) { 
+        model.addAttribute("fechaInvalida", true);
+      }
+
       retorno = "pedidos/pago-tarjeta"; 
     }
-    model.addAttribute("pedido", new Pedido());
     return retorno;
   }
 
   @GetMapping("carrito")
   public String GetCarrito(){
       return "pedidos/carrito";
+  }
+
+  public Boolean esfechaVencimientoValida(Tarjeta tarjeta) {
+    Boolean esValida = false;
+    if (tarjeta.getAnioVencimiento() > 22) {
+      if(tarjeta.getMesVencimiento() > 0 && tarjeta.getMesVencimiento() < 13 )
+      {
+        esValida = true;
+      }
+    }
+    else {
+      if (tarjeta.getAnioVencimiento() == 22) {
+        if(tarjeta.getMesVencimiento() > 4 && tarjeta.getMesVencimiento() < 13 )
+        {
+          esValida = true;
+        }
+        else
+        {
+          esValida = false;
+        }
+      }
+    }
+    
+    return esValida;
   }
 
 }
