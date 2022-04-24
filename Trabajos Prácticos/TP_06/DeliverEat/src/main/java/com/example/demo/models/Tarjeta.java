@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -30,15 +32,15 @@ public class Tarjeta {
   @Size(max = 16)
   private String apellidoTitular;
 
-  @NotBlank
   @NotNull
-  @Pattern(regexp = "^[0-9]{2}$",  message = "Numero Invalido")
-  private String mesVencimiento;
+  @Min(1)
+  @Max(12)
+  private Integer mesVencimiento;
 
-  @NotBlank
   @NotNull
-  @Pattern(regexp = "^[0-9]{2}$", message = "Numero Invalido")
-  private String anioVencimiento;
+  @Min(22)
+  @Max(99)
+  private Integer anioVencimiento;
 
   @NotBlank
   @NotNull
