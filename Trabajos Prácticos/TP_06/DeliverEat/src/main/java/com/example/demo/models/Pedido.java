@@ -40,14 +40,17 @@ public class Pedido {
   @Size( max = 800)
   private String referencia;
   
-  private Boolean esPagoEfectivo;
-
-  private Boolean esPagoTarjeta;
+  private Boolean esPagoEfectivo = true;
 
   private Float montoEnEfectivo;
 
-  private Tarjeta tarjetaCredito;
-
+  /**
+   * Consulta si el pago del pedido se realizara en efectivo
+   * @return true si es en efectivo
+   */
+  public Boolean esPagoEnEfectivo() {
+    return this.esPagoEfectivo;
+  }
 
 }
 
