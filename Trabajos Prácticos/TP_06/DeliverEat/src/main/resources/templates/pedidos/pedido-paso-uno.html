@@ -1,3 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <link th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/5.15.2/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.theme.min.css}" rel="stylesheet"/>
+    <link href="/css/layout.css" rel="stylesheet">
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.bundle.min.js}"></script>
+
+  </head>
 <body>
   <div class="container py-4">
     <h3 class="my-3 pl-1">Realizar Pedido </h3>
@@ -16,7 +34,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" th:field="*{numero}" placeholder="Número" th:classappend="${#fields.hasErrors('numero')} ? ' is-invalid' : ''"
+            <input type="number" class="form-control" th:field="*{numero}" placeholder="Número" th:classappend="${#fields.hasErrors('numero')} ? ' is-invalid' : ''"
             required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
             <label th:for="*{numero}">Número</label> 
             <div class="invalid-feedback"> 
@@ -39,28 +57,30 @@
         </div>
         <div class="col-md-6">
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" th:field="*{referencia}" placeholder="referencia" th:classappend="${#fields.hasErrors('referencia')} ? ' is-invalid' : ''"
-            required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+            <input type="text" class="form-control" th:field="*{referencia}" placeholder="referencia" th:classappend="${#fields.hasErrors('referencia')} ? ' is-invalid' : ''"> 
             <label th:for="*{referencia}">Referencia</label> 
+            <div class="invalid-feedback"> 
+              <th:block th:text="${error}" th:each="error : ${#fields.errors('referencia')}"></th:block>
+            </div>
           </div>
         </div>
         <hr>
         <div class="row">
           <label>Forma de pago</label>
           <div class="col-md-6 mb-2 form-floating" id="forma-de-pago">
-            <div class="form-check-inline">
-              <input type="radio" data-bs-toggle="tooltip" data-bs-html="true" title="Efectivo" th:field="*{esPagoEfectivo}" class="form-check-input" name="forma-pago" value="true" checked="checked">
-              <label class="form-check-label" for="flexRadioDefault1">Efectivo </label>
+            <div class="form-check">
+              <input  class="form-check-input" type="radio" name="forma-pago" value="true" th:field="*{esPagoEfectivo}" id="pago-en-efectivo" checked>
+              <label class="form-check-label" for="pago-en-efectivo">Efectivo </label>
             </div>
-            <div class="form-check-inline">
-              <input type="radio" data-bs-toggle="tooltip" data-bs-html="true" title="Pago con tarjeta" th:field="*{esPagoEfectivo}" class="form-check-input" name="forma-pago" value="false">
-              <label class="form-check-label" for="flexRadioDefault1">Targeta Visa</label>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" th:field="*{esPagoEfectivo}" name="forma-pago" value="false" id="pago-visa-credito">
+              <label class="form-check-label" for="pago-visa-credito">Tarjeta Visa</label>
             </div>
           </div>
         </div>
         <hr>
         <div class="btn-group col-md-12 text-end">
-          <button type="button" class="btn btn-secondary">Cancelar</button>
+          <a type="button" class="btn btn-secondary"  href="/pedidos/pedido-cancelado" >Cancelar</a>
           <button type="submit" class="btn btn-primary">Pagar</button>
         </div>
     </form>
