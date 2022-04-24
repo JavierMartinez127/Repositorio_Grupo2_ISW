@@ -63,7 +63,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-floating mb-3">
-              <input type="number" class="form-control" th:field="*{mesVencimiento}" placeholder="mesVencimiento" th:classappend="${#fields.hasErrors('mesVencimiento')} ? ' is-invalid' : ''"
+              <input maxlength="2" type="number" class="form-control" th:field="*{mesVencimiento}" placeholder="mesVencimiento" th:classappend="${#fields.hasErrors('mesVencimiento')} ? ' is-invalid' : ''"
               required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
               <label th:for="*{mesVencimiento}">Mes vencimiento MM </label> 
               <div class="invalid-feedback"> 
@@ -73,7 +73,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-floating mb-3">
-              <input type="number" class="form-control" th:field="*{anioVencimiento}" placeholder="anioVencimiento" th:classappend="${#fields.hasErrors('anioVencimiento')} ? ' is-invalid' : ''"
+              <input maxlength="2" type="number" class="form-control" th:field="*{anioVencimiento}" placeholder="anioVencimiento" th:classappend="${#fields.hasErrors('anioVencimiento')} ? ' is-invalid' : ''"
               required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
               <label th:for="*{anioVencimiento}">Año vencimiento AA </label> 
               <div class="invalid-feedback"> 
@@ -81,7 +81,9 @@
               </div>
             </div>
           </div>
-       
+        </div>
+        <div th:if="${fechaInvalida}" class="alert alert-danger alert-dismissible fade show" role="alert">
+          Tarjeta Vencida
         </div>
         <br>
         <div class="btn-group col-md-12 text-end">
