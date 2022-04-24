@@ -58,8 +58,9 @@ public class PedidosController {
   @PostMapping("pago-efectivo")
   public String pagarEfectivo(@Valid Pedido pedido, BindingResult  result, Model model, RedirectAttributes attributes) {
     String retorno = "pedidos/pago-efectivo";
-    if(pedido.getMontoEnEfectivo() < 100) {
-    model.addAttribute("pedido", pedidoNuevo);
+    if(pedido.getMontoEnEfectivo() < 122 ) {
+      model.addAttribute("pedido", pedidoNuevo);
+      model.addAttribute("montoInvalido", true);
     }
     else {
       retorno = "pedidos/pedido-exitoso";
