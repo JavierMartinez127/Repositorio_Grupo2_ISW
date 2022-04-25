@@ -1,9 +1,14 @@
 package com.example.demo.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.example.demo.models.Pedido;
+import com.example.demo.models.Producto;
 import com.example.demo.models.Tarjeta;
+import com.fasterxml.jackson.databind.ser.std.StdArraySerializers.FloatArraySerializer;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +26,31 @@ import lombok.RequiredArgsConstructor;
 public class PedidosController {
 
   private Pedido pedidoNuevo = new Pedido();
+
+  @GetMapping("carrito")
+  public String GetCarrito(Model model){
+List<Producto> productos = new ArrayList<>();
+Producto producto1 = new Producto();
+producto1.setNombre("Lomo completo");
+producto1.setPrecio( 1000.0f);
+productos.add(producto1);
+Producto producto2 = new Producto();
+producto2.setNombre("Pizza");
+producto2.setPrecio( 400.0f);
+productos.add(producto2);
+pedidoNuevo.setMontoEnEfectivo(0f);
+for (Producto item : productos) {
+  Float total = pedidoNuevo.getMontoEnEfectivo() + item.getPrecio();
+  pedidoNuevo.setMontoEnEfectivo( total );
+}
+
+
+    pedidoNuevo.setProductos(productos);
+    model.addAttribute("pedido", pedidoNuevo);
+      return "pedidos/carrito";
+  }
+
+
   @GetMapping("realizar-pedido")
   public String getPedido(Model model){
 
@@ -100,10 +130,7 @@ public class PedidosController {
     return retorno;
   }
 
-  @GetMapping("carrito")
-  public String GetCarrito(){
-      return "pedidos/carrito";
-  }
+
 
   public Boolean esfechaVencimientoValida(Tarjeta tarjeta) {
     Boolean esValida = false;

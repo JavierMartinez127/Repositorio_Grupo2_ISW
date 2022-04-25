@@ -1,8 +1,14 @@
 package com.example.demo.models;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,6 +51,8 @@ public class Pedido {
   private Boolean esLoAntesPosible = true;
 
   private Float montoEnEfectivo;
+
+  private List<Producto> productos = new ArrayList<Producto>(); 
 
   /**
    * Consulta si el pago del pedido se realizara en efectivo

@@ -73,32 +73,40 @@
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-primary">Tu carrito</span>
       </h4>
-      <ul class="list-group mb-3">
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-          <div>
-            <h6 class="my-0">Nombre del producto</h6>
+      <form th:object="${pedido}" autocomplete="off"  method="POST" class="g-3">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Precio</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row" th:each="item, stat : ${pedido.productos}">         
+               <td th:text="${item.getNombre()}" ></td>
+               <td th:text="${item.getPrecio()}" ></td>
+               <td>x</td>
+            </tr>
+            <tr scope="row">
+              <td class="table-dark" >Total</td>
+              <td class="table-dark" th:text="${pedido.getMontoEnEfectivo()}"></td>
+              <td class="table-dark" ></td>
+            </tr>
+          </tbody>
+          <p></p>
+          </table>
+         
+
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <a class="btn btn-outline-danger me-md-2" type="button" href="/pedidos/pedido-cancelado">Cancelar</a>
+            <a class="btn bg-dark text-white" type="submit" href="/pedidos/realizar-pedido">Pagar</a>
           </div>
-          <span class="text-muted">$12</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Nombre del producto 2</h6>
-            </div>
-            <span class="text-muted">$10</span>
-          </li>
-        <li class="list-group-item d-flex justify-content-between bg-light">
-            <div >
-              <h6 class="my-0">Total</h6>
-            </div>
-            <span class="text-muted">$22</span>
-          </li>
-      </ul>
-      <form >
-        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-          <a class="btn btn-outline-danger me-md-2" type="button" href="/pedidos/pedido-cancelado">Cancelar</a>
-          <a class="btn bg-dark text-white" type="submit" href="/pedidos/realizar-pedido">Pagar</a>
-        </div>
+       
       </form>
+      
+
       </div>
 </body>
 </html>
