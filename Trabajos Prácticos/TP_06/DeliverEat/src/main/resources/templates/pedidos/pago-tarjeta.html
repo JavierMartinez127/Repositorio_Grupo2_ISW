@@ -33,7 +33,7 @@
             <div class="form-floating mb-3">
               <input type="number" class="form-control" th:field="*{codigoSeguridad}" placeholder="codigoSeguridad" th:classappend="${#fields.hasErrors('codigoSeguridad')} ? ' is-invalid' : ''"
               required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
-              <label th:for="*{codigoSeguridad}">Codigo Seguridad</label> 
+              <label th:for="*{codigoSeguridad}">Codigo de Seguridad</label> 
               <div class="invalid-feedback"> 
                 <th:block th:text="${error}" th:each="error : ${#fields.errors('codigoSeguridad')}"></th:block>
               </div>
@@ -45,19 +45,9 @@
             <div class="form-floating mb-3">
               <input type="text" class="form-control" th:field="*{nombreTitular}" placeholder="nombreTitular" th:classappend="${#fields.hasErrors('nombreTitular')} ? ' is-invalid' : ''"
               required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
-              <label th:for="*{nombreTitular}">Nombre Titular</label> 
+              <label th:for="*{nombreTitular}">Nombre y apellido del titular</label> 
               <div class="invalid-feedback"> 
                 <th:block th:text="${error}" th:each="error : ${#fields.errors('nombreTitular')}"></th:block>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" th:field="*{apellidoTitular}" placeholder="apellidoTitular" th:classappend="${#fields.hasErrors('apellidoTitular')} ? ' is-invalid' : ''"
-              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
-              <label th:for="*{apellidoTitular}">Apellido Titular</label> 
-              <div class="invalid-feedback"> 
-                <th:block th:text="${error}" th:each="error : ${#fields.errors('apellidoTitular')}"></th:block>
               </div>
             </div>
           </div>

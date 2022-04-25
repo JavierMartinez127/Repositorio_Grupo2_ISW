@@ -42,6 +42,8 @@ public class Pedido {
   
   private Boolean esPagoEfectivo = true;
 
+  private Boolean esLoAntesPosible = true;
+
   private Float montoEnEfectivo;
 
   /**
@@ -50,6 +52,10 @@ public class Pedido {
    */
   public Boolean esPagoEnEfectivo() {
     return this.esPagoEfectivo;
+  }
+
+  public Boolean esLoAntesPosible() {
+    return this.esLoAntesPosible;
   }
 
 }

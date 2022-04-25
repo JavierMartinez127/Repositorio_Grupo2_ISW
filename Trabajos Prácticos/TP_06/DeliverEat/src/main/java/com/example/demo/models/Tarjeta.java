@@ -24,13 +24,13 @@ public class Tarjeta {
 
   @NotBlank
   @NotNull
-  @Size(max = 16)
+  @Size(max = 32)
   private String nombreTitular;
 
-  @NotBlank
-  @NotNull
-  @Size(max = 16)
-  private String apellidoTitular;
+  // @NotBlank
+  // @NotNull
+  // @Size(max = 16)
+  // private String apellidoTitular;
 
   @NotNull
   @Min(1)
