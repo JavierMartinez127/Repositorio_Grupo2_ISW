@@ -6,9 +6,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.example.demo.models.Pedido;
-import com.example.demo.models.Producto;
+import com.example.demo.models.DetallePedido;
 import com.example.demo.models.Tarjeta;
-import com.fasterxml.jackson.databind.ser.std.StdArraySerializers.FloatArraySerializer;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,23 +29,23 @@ public class PedidosController {
 
   @GetMapping("carrito")
   public String GetCarrito(Model model){
-List<Producto> productos = new ArrayList<>();
-Producto producto1 = new Producto();
-producto1.setNombre("Lomo completo");
-producto1.setPrecio( 1000.0f);
-productos.add(producto1);
-Producto producto2 = new Producto();
-producto2.setNombre("Pizza");
-producto2.setPrecio( 400.0f);
-productos.add(producto2);
-pedidoNuevo.setMontoEnEfectivo(0f);
-for (Producto item : productos) {
-  Float total = pedidoNuevo.getMontoEnEfectivo() + item.getPrecio();
-  pedidoNuevo.setMontoEnEfectivo( total );
+List<DetallePedido> detales = new ArrayList<>();
+DetallePedido producto1 = new DetallePedido();
+producto1.setDescripcion("Lomo completo");
+producto1.setSubTotal( 1000.0f);
+detales.add(producto1);
+DetallePedido producto2 = new DetallePedido();
+producto2.setDescripcion("Pizza");
+producto2.setSubTotal( 400.0f);
+detales.add(producto2);
+pedidoNuevo.setTotal(0f);
+for (DetallePedido item : detales) {
+  Float total = pedidoNuevo.getTotal() + item.getSubTotal();
+  pedidoNuevo.setTotal( total );
 }
 
 
-    pedidoNuevo.setProductos(productos);
+    pedidoNuevo.setDetallesPedido(detales);
     model.addAttribute("pedido", pedidoNuevo);
       return "pedidos/carrito";
   }
@@ -61,9 +61,13 @@ for (Producto item : productos) {
   @PostMapping("realizar-pedido")
   public String getPedido(@Valid Pedido pedido, BindingResult result, Model model, RedirectAttributes attributes){
 
-    pedidoNuevo = pedido;
+    pedidoNuevo.setCalle(pedido.getCalle()); 
+    pedidoNuevo.setCiudad(pedido.getCiudad());
+    pedidoNuevo.setEsLoAntesPosible(pedido.esLoAntesPosible());
+    pedidoNuevo.setNumero(pedido.getNumero());
+    pedidoNuevo.setEsPagoEfectivo(pedido.esPagoEnEfectivo());
     String retorno = "pedidos/pedido-paso-uno.html"; 
-    model.addAttribute("pedido", pedido);
+    model.addAttribute("pedido", pedidoNuevo);
       if(result.hasErrors()) {
         retorno = "pedidos/pedido-paso-uno.html"; 
       }
@@ -88,7 +92,7 @@ for (Producto item : productos) {
   @PostMapping("pago-efectivo")
   public String pagarEfectivo(@Valid Pedido pedido, BindingResult  result, Model model, RedirectAttributes attributes) {
     String retorno = "pedidos/pago-efectivo";
-    if(pedido.getMontoEnEfectivo() < 122 ) {
+    if(pedido.getMontoEnEfectivo() < pedidoNuevo.getTotal() ) {
       model.addAttribute("pedido", pedidoNuevo);
       model.addAttribute("montoInvalido", true);
     }

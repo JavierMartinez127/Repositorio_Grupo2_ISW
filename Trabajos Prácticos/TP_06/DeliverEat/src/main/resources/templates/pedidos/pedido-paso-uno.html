@@ -86,6 +86,7 @@
               <option selected th:value="${null}">Seleccione...</option>
               <option value="H">Córdoba</option>
               <option value="M">Villa Allende</option>
+              <option value="C">La Calera</option>
             </select>
             <label class="ms-2" th:for="*{ciudad}">Ciudad</label>
             <div class="invalid-feedback"> 
@@ -126,9 +127,10 @@
             </div>
             <div class="form-check">
               <input type="radio" class="form-check-input" name="hora-entrega" value="false" th:field="*{esLoAntesPosible}" id="elegir-hora">
-              <label class="form-check-label" for="elegir-hora">Elegir hora</label>
+              <label class="form-check-label" for="elegir-hora">Elegir fecha y hora</label>
             </div>
-            <input type="time" id="time-picker" name="appt" min="09:00" max="18:00" style="height: 35px;" disabled>
+            <input type="date" id="datePickerId" name="appt" style="height: 35px;" disabled>
+            <input type="time" id="timePickerId" name="appt" style="height: 35px;" disabled>
           </div>
         </div>
         <hr>
@@ -136,6 +138,8 @@
           <button class="btn btn-outline-danger me-md-2" type="button" href="/pedidos/pedido-cancelado">Cancelar</button>
           <button class="btn bg-dark text-white" type="submit">Pagar</button>
         </div>
+
+      Total:   <p class="table-dark" th:text="${pedido.getTotal()}"></p>
     </form>
   </div>
   <script type="text/javascript" src="/js/pedidos/pedido-paso-uno.js"></script>

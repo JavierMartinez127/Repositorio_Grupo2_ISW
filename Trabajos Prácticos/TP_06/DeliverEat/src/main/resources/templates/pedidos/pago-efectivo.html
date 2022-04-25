@@ -62,7 +62,8 @@
         <div class="row">
           <div>
             <div class="form-floating mb-3">
-                <input type="text" value="122" class="form-control" readonly>
+                <input type="text" th:text="${pedido.getTotal()}" class="form-control" readonly>
+             
                 <label fs="fs-6">Total a pagar en $ </label>
             </div>
           </div>

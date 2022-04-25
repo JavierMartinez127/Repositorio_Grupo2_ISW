@@ -51,8 +51,9 @@ public class Pedido {
   private Boolean esLoAntesPosible = true;
 
   private Float montoEnEfectivo;
+  private Float total;
 
-  private List<Producto> productos = new ArrayList<Producto>(); 
+  private List<DetallePedido> detallesPedido = new ArrayList<DetallePedido>(); 
 
   /**
    * Consulta si el pago del pedido se realizara en efectivo
