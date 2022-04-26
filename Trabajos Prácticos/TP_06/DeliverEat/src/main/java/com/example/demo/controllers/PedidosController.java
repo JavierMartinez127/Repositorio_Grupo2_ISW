@@ -28,6 +28,7 @@ public class PedidosController {
 
   @GetMapping("carrito")
   public String GetCarrito(Model model) {
+    
     List<DetallePedido> detales = new ArrayList<>();
     DetallePedido producto1 = new DetallePedido();
     producto1.setDescripcion("Lomo completo");
@@ -70,6 +71,9 @@ public class PedidosController {
     this.pedido.setNumero(pedido.getNumero());
     this.pedido.setEsPagoEfectivo(pedido.esPagoEnEfectivo());
     this.pedido.setReferencia(pedido.getReferencia());
+this.pedido.setFecha(pedido.getFecha());
+this.pedido.setHora(pedido.getHora());
+
     String retorno = "pedidos/pedido-paso-uno.html";
     model.addAttribute("pedido", this.pedido);
     if (result.hasErrors()) {

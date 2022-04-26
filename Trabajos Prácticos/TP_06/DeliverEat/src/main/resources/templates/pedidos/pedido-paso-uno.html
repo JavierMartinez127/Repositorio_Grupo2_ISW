@@ -129,8 +129,8 @@
               <input type="radio" class="form-check-input" name="hora-entrega" value="false" th:field="*{esLoAntesPosible}" id="elegir-hora">
               <label class="form-check-label" for="elegir-hora">Elegir fecha y hora</label>
             </div>
-            <input type="date" id="datePickerId" name="appt" style="height: 35px;" disabled>
-            <input type="time" id="timePickerId" name="appt" style="height: 35px;" disabled>
+            <input type="date" id="datePickerId" name="appt" style="height: 35px;" th:field="*{fecha}" disabled>
+            <input type="time" id="timePickerId" name="appt" style="height: 35px;" th:field="*{hora}" disabled>
           </div>
         </div>
         <div class="col-md-6">

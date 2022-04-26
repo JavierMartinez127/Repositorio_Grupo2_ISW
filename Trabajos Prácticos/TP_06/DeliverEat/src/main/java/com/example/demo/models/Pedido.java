@@ -1,7 +1,10 @@
 package com.example.demo.models;
 
 import java.sql.Array;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -55,6 +58,9 @@ public class Pedido {
   private Float total;
 
   private List<DetallePedido> detallesPedido = new ArrayList<DetallePedido>(); 
+  private String fecha;
+  private String hora;
+
 
   /**
    * Consulta si el pago del pedido se realizara en efectivo
@@ -71,6 +77,7 @@ public class Pedido {
   public Boolean esLoAntesPosible() {
     return this.esLoAntesPosible;
   }
+
 
 }
 
