@@ -84,9 +84,9 @@
           <div class="form-floating mb-3">
             <select th:field="*{ciudad}" class="form-select" aria-label="Ciudad" required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')">
               <option selected th:value="${null}">Seleccione...</option>
-              <option value="H">Córdoba</option>
-              <option value="M">Villa Allende</option>
-              <option value="C">La Calera</option>
+              <option value="Cordoba">Córdoba</option>
+              <option value="Villa Allende">Villa Allende</option>
+              <option value="Calera">La Calera</option>
             </select>
             <label class="ms-2" th:for="*{ciudad}">Ciudad</label>
             <div class="invalid-feedback"> 
@@ -133,13 +133,17 @@
             <input type="time" id="timePickerId" name="appt" style="height: 35px;" disabled>
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" th:field="*{total}" placeholder="Total" readonly> 
+            <label th:for="*{numero}">Total</label> 
+          </div>
+        </div>  
         <hr>
         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
           <button class="btn btn-outline-danger me-md-2" type="button" href="/pedidos/pedido-cancelado">Cancelar</button>
           <button class="btn bg-dark text-white" type="submit">Pagar</button>
         </div>
-
-      Total:   <p class="table-dark" th:text="${pedido.getTotal()}"></p>
     </form>
   </div>
   <script type="text/javascript" src="/js/pedidos/pedido-paso-uno.js"></script>
