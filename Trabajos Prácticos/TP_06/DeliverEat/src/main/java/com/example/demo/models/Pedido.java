@@ -51,6 +51,7 @@ public class Pedido {
   private Boolean esLoAntesPosible = true;
 
   private Float montoEnEfectivo;
+
   private Float total;
 
   private List<DetallePedido> detallesPedido = new ArrayList<DetallePedido>(); 
@@ -63,6 +64,10 @@ public class Pedido {
     return this.esPagoEfectivo;
   }
 
+  /**
+   * Consulta si el pago del pedido se realizara lo antes posible
+   * @return true si es lo antes posible
+   */
   public Boolean esLoAntesPosible() {
     return this.esLoAntesPosible;
   }
