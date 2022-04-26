@@ -15,8 +15,49 @@
     <script type="text/javascript" th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.bundle.min.js}"></script>
   </head>
   <body>
-    <div class="container py-4">
-      <h3 class="my-3 pl-1 text-center">Pedido realizado con exito! </h3>
+    <header>
+      <div class="px-3 py-2 bg-dark text-white">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+              <img src="/src/imagenes/DeliverEat banner.png" alt="logo"></img> 
+            </a>
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-house"></i>
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-secondary">
+                  <i class="bi bi-cart"></i>
+                  Carrito
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-bell"></i>
+                  Notificaciones
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-person-circle"></i>
+                  Perfil
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="card container m-3">
+      <h3 class="my-3 pl-1 text-center">Pedido realizado con exito!</h3>
+      <p class="my-3 pl-1 text-center" th:text="'Calle: '+ ${pedido.calle}"></p>
+      <p class="my-3 pl-1 text-center" th:text="'Número: '+ ${pedido.numero}"></p>
+      <p class="my-3 pl-1 text-center" th:text="'Ciudad: '+ ${pedido.ciudad}"></p>
+      <p class="my-3 pl-1 text-center" th:text="'Referencia: ' + ${pedido.referencia != null ?  pedido.referencia  : 'sin referencia'}"></p>
     </div>
   </body>
 </html>
