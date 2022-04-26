@@ -28,7 +28,14 @@ public class PedidosController {
 
   @GetMapping("carrito")
   public String GetCarrito(Model model) {
-    
+    this.pedido.setCalle("");
+    this.pedido.setCiudad("");
+    this.pedido.setEsLoAntesPosible(true);
+    this.pedido.setNumero("");
+    this.pedido.setEsPagoEfectivo(true);
+    this.pedido.setReferencia("");
+this.pedido.setFecha("");
+this.pedido.setHora("");
     List<DetallePedido> detales = new ArrayList<>();
     DetallePedido producto1 = new DetallePedido();
     producto1.setDescripcion("Lomo completo");
@@ -38,6 +45,15 @@ public class PedidosController {
     producto2.setDescripcion("Pizza");
     producto2.setSubTotal(400.0f);
     detales.add(producto2);
+    /**
+     *
+     DetallePedido producto3 = new DetallePedido();
+    producto3.setDescripcion("x");
+    producto2.setSubTotal(0.0f);
+    detales.add(producto3);
+     * 
+     * 
+     */
     this.pedido.setTotal(0f);
     for (DetallePedido item : detales) {
       Float total = this.pedido.getTotal() + item.getSubTotal();

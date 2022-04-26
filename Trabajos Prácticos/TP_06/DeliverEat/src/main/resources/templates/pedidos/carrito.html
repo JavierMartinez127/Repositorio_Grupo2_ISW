@@ -86,19 +86,16 @@
             <tr>
               <th scope="col">Descripcion</th>
               <th scope="col">Subtotal</th>
-              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             <tr scope="row" th:each="item, stat : ${pedido.detallesPedido}">         
                <td th:text="${item.getDescripcion()}" ></td>
                <td th:text="${item.getSubTotal()}" ></td>
-               <td>x</td>
             </tr>
             <tr scope="row">
               <td class="table-dark" >Total</td>
               <td class="table-dark" th:text="${pedido.getTotal()}"></td>
-              <td class="table-dark" ></td>
             </tr>
           </tbody>
           <p></p>

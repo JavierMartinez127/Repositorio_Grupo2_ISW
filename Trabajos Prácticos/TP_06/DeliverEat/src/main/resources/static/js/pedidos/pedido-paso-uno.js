@@ -27,5 +27,7 @@ Date.prototype.addDays = function(days) {
 
 datePickerId.max = new Date().addDays(7).toISOString().slice(0, -14);
 datePickerId.min = new Date().toISOString().slice(0, -14);
+datePickerId.value = new Date().toISOString().slice(0, -14);
+timePickerId.value = new Date().toISOString().slice(11, 13) + ':00';
 
 
