@@ -28,33 +28,37 @@ public class PedidosController {
   private Pedido pedidoNuevo = new Pedido();
 
   @GetMapping("carrito")
-  public String GetCarrito(Model model){
-List<DetallePedido> detales = new ArrayList<>();
-DetallePedido producto1 = new DetallePedido();
-producto1.setDescripcion("Lomo completo");
-producto1.setSubTotal( 1000.0f);
-detales.add(producto1);
-DetallePedido producto2 = new DetallePedido();
-producto2.setDescripcion("Pizza");
-producto2.setSubTotal( 400.0f);
-detales.add(producto2);
-pedidoNuevo.setTotal(0f);
-for (DetallePedido item : detales) {
-  Float total = pedidoNuevo.getTotal() + item.getSubTotal();
-  pedidoNuevo.setTotal( total );
-}
-
+  public String GetCarrito(Model model) {
+    List<DetallePedido> detales = new ArrayList<>();
+    DetallePedido producto1 = new DetallePedido();
+    producto1.setDescripcion("Lomo completo");
+    producto1.setSubTotal(1000.0f);
+    detales.add(producto1);
+    DetallePedido producto2 = new DetallePedido();
+    producto2.setDescripcion("Pizza");
+    producto2.setSubTotal(400.0f);
+    detales.add(producto2);
+    pedidoNuevo.setTotal(0f);
+    for (DetallePedido item : detales) {
+      Float total = pedidoNuevo.getTotal() + item.getSubTotal();
+      pedidoNuevo.setTotal(total);
+    }
 
     pedidoNuevo.setDetallesPedido(detales);
     model.addAttribute("pedido", pedidoNuevo);
-      return "pedidos/carrito";
+    return "pedidos/carrito";
   }
 
+  @PostMapping("carrito")
+  public String carritoListo(Model model) {
+    model.addAttribute("pedido", pedidoNuevo);
+    return "redirect:/pedidos/realizar-pedido";
+  }
 
   @GetMapping("realizar-pedido")
   public String getPedido(Model model){
 
-      model.addAttribute("pedido", new Pedido());
+      model.addAttribute("pedido", pedidoNuevo);
       return "pedidos/pedido-paso-uno.html";
   }
 
