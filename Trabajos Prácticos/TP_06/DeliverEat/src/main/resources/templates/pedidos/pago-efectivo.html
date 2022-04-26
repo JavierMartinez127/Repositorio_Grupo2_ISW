@@ -59,15 +59,12 @@
     <div class="container py-4" style="max-width:960px">
       <h3>Pago en Efectivo </h3>
       <form th:object="${pedido}" autocomplete="off"  method="POST" class="g-3">
-        <div class="row">
-          <div>
-            <div class="form-floating mb-3">
-                <input type="text" th:text="${pedido.getTotal()}" class="form-control" readonly>
-             
-                <label fs="fs-6">Total a pagar en $ </label>
-            </div>
+        <div class="mb-3">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" th:field="*{total}" placeholder="Total" readonly> 
+            <label th:for="*{numero}">Total</label> 
           </div>
-        </div>
+        </div>  
         <div class="row">
           <div class="mb-3">
             <div class="form-floating">
