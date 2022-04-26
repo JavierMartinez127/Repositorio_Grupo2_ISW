@@ -9,7 +9,6 @@ import com.example.demo.models.Pedido;
 import com.example.demo.models.DetallePedido;
 import com.example.demo.models.Tarjeta;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PedidosController {
 
-  private Pedido pedidoNuevo = new Pedido();
+  public final Pedido pedido = new Pedido();
 
   @GetMapping("carrito")
   public String GetCarrito(Model model) {
@@ -38,79 +37,95 @@ public class PedidosController {
     producto2.setDescripcion("Pizza");
     producto2.setSubTotal(400.0f);
     detales.add(producto2);
-    pedidoNuevo.setTotal(0f);
+    this.pedido.setTotal(0f);
     for (DetallePedido item : detales) {
-      Float total = pedidoNuevo.getTotal() + item.getSubTotal();
-      pedidoNuevo.setTotal(total);
+      Float total = this.pedido.getTotal() + item.getSubTotal();
+      this.pedido.setTotal(total);
     }
 
-    pedidoNuevo.setDetallesPedido(detales);
-    model.addAttribute("pedido", pedidoNuevo);
+    this.pedido.setDetallesPedido(detales);
+    model.addAttribute("pedido", this.pedido);
     return "pedidos/carrito";
   }
 
   @PostMapping("carrito")
   public String carritoListo(Model model) {
-    model.addAttribute("pedido", pedidoNuevo);
+    model.addAttribute("pedido", this.pedido);
     return "redirect:/pedidos/realizar-pedido";
   }
 
   @GetMapping("realizar-pedido")
-  public String getPedido(Model model){
+  public String getPedido(Model model) {
 
-      model.addAttribute("pedido", pedidoNuevo);
-      return "pedidos/pedido-paso-uno.html";
+    model.addAttribute("pedido", this.pedido);
+    return "pedidos/pedido-paso-uno.html";
   }
 
   @PostMapping("realizar-pedido")
-  public String getPedido(@Valid Pedido pedido, BindingResult result, Model model, RedirectAttributes attributes){
+  public String getPedido(@Valid Pedido pedido, BindingResult result, Model model, RedirectAttributes attributes) {
 
-    pedidoNuevo.setCalle(pedido.getCalle()); 
-    pedidoNuevo.setCiudad(pedido.getCiudad());
-    pedidoNuevo.setEsLoAntesPosible(pedido.esLoAntesPosible());
-    pedidoNuevo.setNumero(pedido.getNumero());
-    pedidoNuevo.setEsPagoEfectivo(pedido.esPagoEnEfectivo());
-    String retorno = "pedidos/pedido-paso-uno.html"; 
-    model.addAttribute("pedido", pedidoNuevo);
-      if(result.hasErrors()) {
-        retorno = "pedidos/pedido-paso-uno.html"; 
+    this.pedido.setCalle(pedido.getCalle());
+    this.pedido.setCiudad(pedido.getCiudad());
+    this.pedido.setEsLoAntesPosible(pedido.esLoAntesPosible());
+    this.pedido.setNumero(pedido.getNumero());
+    this.pedido.setEsPagoEfectivo(pedido.esPagoEnEfectivo());
+    this.pedido.setReferencia(pedido.getReferencia());
+    String retorno = "pedidos/pedido-paso-uno.html";
+    model.addAttribute("pedido", this.pedido);
+    if (result.hasErrors()) {
+      retorno = "pedidos/pedido-paso-uno.html";
+    } else {
+      if (pedido.esPagoEnEfectivo()) {
+        retorno = "redirect:/pedidos/pago-efectivo";
+      } else {
+        retorno = "redirect:/pedidos/pago-tarjeta";
       }
-      else {
-        if (pedido.esPagoEnEfectivo()) {
-          retorno = "redirect:/pedidos/pago-efectivo";
-        }
-        else {
-          retorno = "redirect:/pedidos/pago-tarjeta";
-        }
-      }
+    }
     return retorno;
   }
 
   @GetMapping("pago-efectivo")
   public String pagarEfectivo(Model model, RedirectAttributes attributes) {
 
-    model.addAttribute("pedido", pedidoNuevo);
+    model.addAttribute("pedido", this.pedido);
     return "pedidos/pago-efectivo";
   }
 
   @PostMapping("pago-efectivo")
-  public String pagarEfectivo(@Valid Pedido pedido, BindingResult  result, Model model, RedirectAttributes attributes) {
+  public String pagarEfectivo(@Valid Pedido pedido, BindingResult result, Model model, RedirectAttributes attributes) {
     String retorno = "pedidos/pago-efectivo";
-    if(pedido.getMontoEnEfectivo() < pedidoNuevo.getTotal() ) {
-      model.addAttribute("pedido", pedidoNuevo);
+    if (pedido.getMontoEnEfectivo() < this.pedido.getTotal()) {
+      model.addAttribute("pedido", this.pedido);
       model.addAttribute("montoInvalido", true);
-    }
-    else {
-      retorno = "pedidos/pedido-exitoso";
+    } else {
+      this.pedido.setMontoEnEfectivo(pedido.getMontoEnEfectivo());
+      model.addAttribute("pedido", this.pedido);
+      retorno = "redirect:/pedidos/pedido-exitoso";
     }
     return retorno;
   }
-  
+
   @GetMapping("pago-tarjeta")
   public String pagarConTarjeta(Model model, RedirectAttributes attributes) {
-    model.addAttribute("pedido", new Pedido());
+    model.addAttribute("pedido", this.pedido);
     model.addAttribute("tarjeta", new Tarjeta());
     return "pedidos/pago-tarjeta";
+  }
+
+  @PostMapping("pago-tarjeta")
+  public String pagarConTarjeta(@Valid Tarjeta tarjeta, BindingResult result, Model model,
+      RedirectAttributes attributes) {
+    String retorno = "redirect:/pedidos/pedido-exitoso";
+    if (result.hasErrors() || !esfechaVencimientoValida(tarjeta)) {
+      model.addAttribute("pedido", this.pedido);
+      model.addAttribute("tarjeta", tarjeta);
+      if (!esfechaVencimientoValida(tarjeta)) {
+        model.addAttribute("fechaInvalida", true);
+      }
+
+      retorno = "pedidos/pago-tarjeta";
+    }
+    return retorno;
   }
 
   @GetMapping("pedido-cancelado")
@@ -120,47 +135,28 @@ public class PedidosController {
 
   @GetMapping("pedido-exitoso")
   public String pedidoExitoso(Model model, RedirectAttributes attributes) {
+    model.addAttribute("pedido", this.pedido);
     return "pedidos/pedido-exitoso";
   }
 
-  @PostMapping("pago-tarjeta")
-  public String pagarConTarjeta(@Valid Tarjeta tarjeta, BindingResult result, Model model, RedirectAttributes attributes) {
-    String retorno = "pedidos/pedido-exitoso";
-    if(result.hasErrors() || !esfechaVencimientoValida(tarjeta)) {
-      model.addAttribute("pedido", pedidoNuevo);
-      model.addAttribute("tarjeta", tarjeta);
-      if(!esfechaVencimientoValida(tarjeta)) { 
-        model.addAttribute("fechaInvalida", true);
-      }
-
-      retorno = "pedidos/pago-tarjeta"; 
-    }
-    return retorno;
-  }
-
-
+  
 
   public Boolean esfechaVencimientoValida(Tarjeta tarjeta) {
     Boolean esValida = false;
     if (tarjeta.getAnioVencimiento() > 22) {
-      if(tarjeta.getMesVencimiento() > 0 && tarjeta.getMesVencimiento() < 13 )
-      {
+      if (tarjeta.getMesVencimiento() > 0 && tarjeta.getMesVencimiento() < 13) {
         esValida = true;
       }
-    }
-    else {
+    } else {
       if (tarjeta.getAnioVencimiento() == 22) {
-        if(tarjeta.getMesVencimiento() > 4 && tarjeta.getMesVencimiento() < 13 )
-        {
+        if (tarjeta.getMesVencimiento() > 4 && tarjeta.getMesVencimiento() < 13) {
           esValida = true;
-        }
-        else
-        {
+        } else {
           esValida = false;
         }
       }
     }
-    
+
     return esValida;
   }
 
