@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <link th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/5.15.2/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.theme.min.css}" rel="stylesheet"/>
+    <link href="/css/layout.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.bundle.min.js}"></script>
+  </head>
+  <body>
+    <header>
+      <div class="px-3 py-2 bg-dark text-white">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+              <img src="/src/imagenes/DeliverEat-banner-white.png" alt="logo"></img> 
+            </a>
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-house"></i>
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-secondary">
+                  <i class="bi bi-cart"></i>
+                  Carrito
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-bell"></i>
+                  Notificaciones
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-person-circle"></i>
+                  Perfil
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container py-4" style="max-width:680px">
+      <h3 class="my-3 pl-1">Pago con Tarjeta </h3>
+      <form th:object="${tarjeta}" autocomplete="off"  method="POST" class="g-3">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" th:field="*{numero}" placeholder="numero" th:classappend="${#fields.hasErrors('numero')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{numero}">Número de la tarjeta</label> 
+              <div class="invalid-feedback"> 
+                <th:block th:text="${error}" th:each="error : ${#fields.errors('numero')}"></th:block>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" th:field="*{codigoSeguridad}" placeholder="codigoSeguridad" th:classappend="${#fields.hasErrors('codigoSeguridad')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{codigoSeguridad}">Codigo de Seguridad</label> 
+              <div class="invalid-feedback"> 
+                <th:block th:text="${error}" th:each="error : ${#fields.errors('codigoSeguridad')}"></th:block>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" th:field="*{nombreTitular}" placeholder="nombreTitular" th:classappend="${#fields.hasErrors('nombreTitular')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{nombreTitular}">Nombre y apellido del titular</label> 
+              <div class="invalid-feedback"> 
+                <th:block th:text="${error}" th:each="error : ${#fields.errors('nombreTitular')}"></th:block>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-floating mb-3">
+              <input maxlength="2" type="number" class="form-control" th:field="*{mesVencimiento}" placeholder="mesVencimiento" th:classappend="${#fields.hasErrors('mesVencimiento')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{mesVencimiento}">Mes MM </label>
+              <div class="invalid-feedback"> 
+                <th:block th:text="${error}" th:each="error : ${#fields.errors('mesVencimiento')}"></th:block>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-floating mb-3">
+              <input maxlength="2" type="number" class="form-control" th:field="*{anioVencimiento}" placeholder="anioVencimiento" th:classappend="${#fields.hasErrors('anioVencimiento')} ? ' is-invalid' : ''"
+              required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+              <label th:for="*{anioVencimiento}">Año AA </label> 
+              <div class="invalid-feedback"> 
+                <th:block th:text="${error}" th:each="error : ${#fields.errors('anioVencimiento')}"></th:block>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div th:if="${fechaInvalida}" class="alert alert-danger alert-dismissible fade show" role="alert">
+          Tarjeta Vencida
+        </div>
+        <br>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <a class="btn btn-outline-danger me-md-2" type="button" href="/pedidos/pedido-cancelado">Cancelar</a>
+          <button class="btn bg-dark text-white" type="submit">Siguiente</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

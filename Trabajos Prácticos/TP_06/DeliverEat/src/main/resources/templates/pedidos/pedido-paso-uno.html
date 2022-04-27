@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <link th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/5.15.2/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.theme.min.css}" rel="stylesheet"/>
+    <link href="/css/layout.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.bundle.min.js}"></script>
+
+  </head>
+<body>
+  <header>
+    <div class="px-3 py-2 bg-dark text-white">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+            <img src="/src/imagenes/DeliverEat-banner-white.png" alt="logo"></img> 
+          </a>
+          <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+            <li>
+              <a href="#" class="nav-link text-white">
+                <i class="bi bi-house"></i>
+                Inicio
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link text-secondary">
+                <i class="bi bi-cart"></i>
+                Carrito
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link text-white">
+                <i class="bi bi-bell"></i>
+                Notificaciones
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link text-white">
+                <i class="bi bi-person-circle"></i>
+                Perfil
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container py-4" style="max-width:960px">
+    <h3 class="my-3 pl-1">Realizar Pedido </h3>
+    <form th:object="${pedido}" autocomplete="off"  method="POST" class="g-3">
+      <div class="row">
+        <p class="fs-5 my-3 pl-1">Domicilio</p>
+        <div class="col-md-6">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" th:field="*{calle}" placeholder="Calle" th:classappend="${#fields.hasErrors('calle')} ? ' is-invalid' : ''"
+          required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+          <label th:for="*{calle}">Calle</label> 
+          <div class="invalid-feedback"> 
+            <th:block th:text="${error}" th:each="error : ${#fields.errors('calle')}"></th:block>
+          </div>
+        </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" th:field="*{numero}" placeholder="Número" th:classappend="${#fields.hasErrors('numero')} ? ' is-invalid' : ''"
+            required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')"> 
+            <label th:for="*{numero}">Número</label> 
+            <div class="invalid-feedback"> 
+              <th:block th:text="${error}" th:each="error : ${#fields.errors('numero')}"></th:block>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <select th:field="*{ciudad}" class="form-select" aria-label="Ciudad" required oninvalid="this.setCustomValidity('Este dato es obligatorio.')" oninput="this.setCustomValidity('')">
+              <option selected th:value="${null}">Seleccione...</option>
+              <option value="Cordoba">Córdoba</option>
+              <option value="Villa Allende">Villa Allende</option>
+              <option value="Calera">La Calera</option>
+            </select>
+            <label class="ms-2" th:for="*{ciudad}">Ciudad</label>
+            <div class="invalid-feedback"> 
+              <th:block th:text="${error}" th:each="error : ${#fields.errors('ciudad')}"></th:block>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" th:field="*{referencia}" placeholder="referencia" th:classappend="${#fields.hasErrors('referencia')} ? ' is-invalid' : ''"> 
+            <label th:for="*{referencia}">Referencia</label> 
+            <div class="invalid-feedback"> 
+              <th:block th:text="${error}" th:each="error : ${#fields.errors('referencia')}"></th:block>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <label>Forma de pago</label>
+          <div class="col-md-6 mb-2 form-floating" id="forma-de-pago">
+            <div class="form-check">
+              <input  class="form-check-input" type="radio" name="forma-pago" value="true" th:field="*{esPagoEfectivo}" id="pago-en-efectivo" checked>
+              <label class="form-check-label" for="pago-en-efectivo">Efectivo </label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" th:field="*{esPagoEfectivo}" name="forma-pago" value="false" id="pago-visa-credito">
+              <label class="form-check-label" for="pago-visa-credito">Tarjeta Visa</label>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <label>Hora de entrega</label>
+          <div class="col-md-6 mb-2 form-floating" id="hora-entrega">
+            <div class="form-check">
+              <input  class="form-check-input" type="radio" name="hora-entrega" value="true" th:field="*{esLoAntesPosible}" id="lo-antes-posible" checked>
+              <label class="form-check-label" for="lo-antes-posible">Lo antes posible </label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="hora-entrega" value="false" th:field="*{esLoAntesPosible}" id="elegir-hora">
+              <label class="form-check-label" for="elegir-hora">Elegir fecha y hora</label>
+            </div>
+            <input type="date" id="datePickerId" name="appt" style="height: 35px;" th:field="*{fecha}" disabled>
+            <input type="time" id="timePickerId" name="appt" style="height: 35px;" th:field="*{hora}" disabled>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" th:field="*{total}" placeholder="Total" readonly> 
+            <label th:for="*{numero}">Total</label> 
+          </div>
+        </div>  
+        <hr>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button class="btn btn-outline-danger me-md-2" type="button" href="/pedidos/pedido-cancelado">Cancelar</button>
+          <button class="btn bg-dark text-white" type="submit">Siguiente</button>
+        </div>
+    </form>
+  </div>
+  <script type="text/javascript" src="/js/pedidos/pedido-paso-uno.js"></script>

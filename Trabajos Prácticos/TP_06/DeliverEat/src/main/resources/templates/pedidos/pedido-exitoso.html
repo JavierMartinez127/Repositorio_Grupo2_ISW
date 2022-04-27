@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <link th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/5.15.2/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/jquery-ui/1.13.1/jquery-ui.theme.min.css}" rel="stylesheet"/>
+    <link href="/css/layout.css" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.bundle.min.js}"></script>
+  </head>
+  <body>
+    <header>
+      <div class="px-3 py-2 bg-dark text-white">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+              <img src="/src/imagenes/DeliverEat-banner-white.png" alt="logo"></img> 
+            </a>
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-house"></i>
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-secondary">
+                  <i class="bi bi-cart"></i>
+                  Carrito
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-bell"></i>
+                  Notificaciones
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white">
+                  <i class="bi bi-person-circle"></i>
+                  Perfil
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="card container m-3">
+    
+
+      <div class="container" style="max-width:680px">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Tu Compra</span>
+        </h4>
+        <form th:object="${pedido}" autocomplete="off"  method="POST" class="g-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr scope="row" th:each="item, stat : ${pedido.detallesPedido}">         
+                 <td th:text="${item.getDescripcion()}" ></td>
+                 <td th:text="${item.getSubTotal()}" ></td>
+               
+              </tr>
+              <tr scope="row">
+                <td class="table-dark" >Total</td>
+                <td class="table-dark" th:text="${pedido.getTotal()}"></td>
+              </tr>
+            </tbody>
+            <p></p>
+            </table>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-secondary">¿Cómo quieres recibir tú compra?</span>
+            </h4>
+            <div class="row mb-3">
+              <div class="col-4 themed-grid-col bg-dark text-white">Ciudad</div>
+              <div class="col-4 themed-grid-col bg-dark text-white">Dirección</div>
+              <div class="col-4 themed-grid-col bg-dark text-white">Referencia</div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-4 themed-grid-col" th:text="${pedido.ciudad}"></div>
+              <div class="col-4 themed-grid-col" th:text="${pedido.calle} + ' ' +${pedido.numero}"></div>
+              <div class="col-4 themed-grid-col" th:text="${pedido.referencia != null ?  pedido.referencia  : 'sin referencia'}"></div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-8 themed-grid-col bg-dark text-white">Hora de entrega</div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-8 themed-grid-col" th:text="${pedido.esLoAntesPosible ? 'Lo antes posible.': 'Fecha y hora: ' + pedido.fecha + ' ' + pedido.hora }"></div>
+            </div>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-secondary">¿Cómo quieres pagar tú compra?</span>
+            </h4>
+            <div class="row mb-3">
+              <div class="col-6 themed-grid-col bg-dark text-white">Forma de pago</div>
+              <div class="col-6 themed-grid-col bg-dark text-white">Datos del pago</div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-6 themed-grid-col" th:text="${pedido.esPagoEnEfectivo() ? 'Efectivo' : 'Tarjeta' }"></div>
+              <div class="col-6 themed-grid-col" th:text="${pedido.esPagoEnEfectivo() ? 'Abona en efectivo: $' + pedido.montoEnEfectivo + ' su vuelto: $' + (pedido.montoEnEfectivo - pedido.total)   : 'Tarjeta Visa' }"></div>
+            </div>
+ 
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+              <a class="btn bg-dark text-white" type="submit" href="/pedidos/carrito" >Finalizar </a>
+            </div>
+         
+        </form>
+        
+  
+        </div>
+
+
+
+    </div>
+  </body>
+</html>
